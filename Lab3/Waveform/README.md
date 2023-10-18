@@ -13,11 +13,11 @@
 
      ![image](https://github.com/lkl110137918218/SOC-design/assets/122779900/ed84ca46-ea56-42f0-bc84-342f9e1ed9d8)
      
-3. below image shows the 11th axi-stream in
+3. below image shows the 12th axi-stream in
    
-   ![image](https://github.com/lkl110137918218/SOC-design/assets/122779900/8eac6bad-36e0-4c4d-8cd2-fd9a1b97fc54)
+   ![image](https://github.com/lkl110137918218/SOC-design/assets/122779900/80e11d0b-bbf7-4578-b906-fa43e6e0be50)
 
-4. below image shows the 11th axi-stream out
+4. below image shows the 12th axi-stream out
 
-   ![image](https://github.com/lkl110137918218/SOC-design/assets/122779900/bd8bf423-4340-419e-801b-5f55f6a97476)
+   ![image](https://github.com/lkl110137918218/SOC-design/assets/122779900/2dbfa580-92ef-4d67-9394-567147c2d4ea)
 

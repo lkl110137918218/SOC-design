@@ -1,10 +1,10 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Mon Oct 30 06:07:23 2023
+[*] Mon Oct 30 07:06:48 2023
 [*]
 [dumpfile] "/home/ubuntu/course-lab_4/lab-exmem_fir/testbench/counter_la_fir/counter_la_fir.vcd"
-[dumpfile_mtime] "Mon Oct 30 06:04:04 2023"
-[dumpfile_size] 157525525
+[dumpfile_mtime] "Mon Oct 30 06:14:23 2023"
+[dumpfile_size] 155698297
 [savefile] "/home/ubuntu/course-lab_4/lab-exmem_fir/testbench/counter_la_fir/lab4-1.gtkw"
 [timestart] 123245400
 [size] 1848 850
@@ -71,7 +71,7 @@ counter_la_fir_tb.uut.mprj.mprj.user_bram.Do0[31:0]
 counter_la_fir_tb.mprj_io[37:0]
 @c00023
 counter_la_fir_tb.checkbits[15:0]
-@28
+@29
 (0)counter_la_fir_tb.checkbits[15:0]
 (1)counter_la_fir_tb.checkbits[15:0]
 (2)counter_la_fir_tb.checkbits[15:0]

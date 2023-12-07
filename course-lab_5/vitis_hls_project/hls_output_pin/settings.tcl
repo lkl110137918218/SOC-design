@@ -5,5 +5,5 @@ set COSIM 0
 set EXPORT_IP 1
 set VIVADO_SYN 0
 set VIVADO_IMPL 0
-set XF_PROJ_ROOT "/home/tonyho/workspace_willy/caravel_fpga/project/vitis_hls_project/hls_output_pin/Makefile"
-set CUR_DIR "/home/tonyho/workspace_willy/caravel_fpga/project/vitis_hls_project/hls_output_pin"
+set XF_PROJ_ROOT "/home/ubuntu/labi/course-lab_5/vitis_hls_project/hls_output_pin/Makefile"
+set CUR_DIR "/home/ubuntu/labi/course-lab_5/vitis_hls_project/hls_output_pin"

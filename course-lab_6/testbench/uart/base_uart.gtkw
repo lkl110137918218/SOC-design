@@ -1,0 +1,53 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Fri Dec 22 07:39:08 2023
+[*]
+[dumpfile] "/home/ubuntu/labi/course-lab_6/testbench/uart/uart.vcd"
+[dumpfile_mtime] "Fri Dec 22 05:06:36 2023"
+[dumpfile_size] 401560370
+[savefile] "/home/ubuntu/labi/course-lab_6/testbench/uart/base_uart.gtkw"
+[timestart] 0
+[size] 2488 1271
+[pos] -1 -1
+*-29.000000 1770737500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] uart_tb.
+[treeopen] uart_tb.uut.
+[treeopen] uart_tb.uut.housekeeping.
+[treeopen] uart_tb.uut.mprj.
+[treeopen] uart_tb.uut.mprj.uart.
+[treeopen] uart_tb.uut.soc.
+[treeopen] uart_tb.uut.soc.core.
+[sst_width] 233
+[signals_width] 278
+[sst_expanded] 1
+[sst_vpaned_height] 378
+@28
+uart_tb.uut.mprj.uart.wb_clk_i
+@800022
+uart_tb.mprj_io[37:0]
+@28
+(32)uart_tb.mprj_io[37:0]
+(31)uart_tb.mprj_io[37:0]
+@1001200
+-group_end
+@201
+-
+@200
+-SoC Rx
+@28
+uart_tb.uut.mprj.uart.rx
+uart_tb.uut.mprj.uart.rx_busy
+[color] 3
+uart_tb.uut.mprj.uart.rx_data[7:0]
+uart_tb.uut.mprj.uart.rx_finish
+@200
+-
+-SoC Tx
+@28
+uart_tb.uut.mprj.uart.tx
+uart_tb.uut.mprj.uart.tx_start
+[color] 3
+uart_tb.uut.mprj.uart.tx_data[7:0]
+uart_tb.uut.mprj.uart.tx_busy
+[pattern_trace] 1
+[pattern_trace] 0

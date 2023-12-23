@@ -6,7 +6,8 @@ riscv32-unknown-elf-gcc -Wl,--no-warn-rwx-segments -g \
 	-I../../firmware \
 	-march=rv32i -mabi=ilp32 -D__vexriscv__ -DUSER_PROJ_IRQ0_EN \
 	-Wl,-Bstatic,-T,../../firmware/sections.lds,--strip-discarded \
-	-ffreestanding -nostartfiles -o uart.elf ../../firmware/crt0_vex.S ../../firmware/isr.c uart.c counter_la_uart.c
+	-ffreestanding -nostartfiles -Os -o uart.elf ../../firmware/crt0_vex.S ../../firmware/isr.c uart.c fir.c matmul.c qsort.c counter_la_uart.c 
+	# -ffreestanding -nostartfiles -o uart.elf ../../firmware/crt0_vex.S ../../firmware/isr.c uart.c fir.c fir.h matmul.c matmul.h qsort.c qsort.h counter_la_uart.c 
 # -nostartfiles	
 riscv32-unknown-elf-objcopy -O verilog uart.elf uart.hex
 riscv32-unknown-elf-objdump -D uart.elf > uart.out

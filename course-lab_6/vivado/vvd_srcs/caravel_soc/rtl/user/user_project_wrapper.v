@@ -13,7 +13,7 @@
 // limitations under the License.
 // SPDX-License-Identifier: Apache-2.0
 
-//`default_nettype none
+`default_nettype wire
 /*
  *-------------------------------------------------------------
  *
@@ -52,8 +52,8 @@ module user_project_wrapper #(
     input [3:0] wbs_sel_i,
     input [31:0] wbs_dat_i,
     input [31:0] wbs_adr_i,
-    output wbs_ack_o,
-    output [31:0] wbs_dat_o,
+    output reg wbs_ack_o,
+    output reg [31:0] wbs_dat_o,
 
     // Logic Analyzer Signals
     input  [127:0] la_data_in,
@@ -62,8 +62,8 @@ module user_project_wrapper #(
 
     // IOs
     input  [`MPRJ_IO_PADS-1:0] io_in,
-    output [`MPRJ_IO_PADS-1:0] io_out,
-    output [`MPRJ_IO_PADS-1:0] io_oeb,
+    output reg [`MPRJ_IO_PADS-1:0] io_out,
+    output reg [`MPRJ_IO_PADS-1:0] io_oeb,
 
     // Analog (direct connection to GPIO pad---use with caution)
     // Note that analog I/O is not available on the 7 lowest-numbered
@@ -75,8 +75,49 @@ module user_project_wrapper #(
     input   user_clock2,
 
     // User maskable interrupt signals
-    output [2:0] user_irq
+    output reg [2:0] user_irq
 );
+    wire [1:0] decoded;
+    wire wbs_ack_bram_o;
+    wire [31:0] wbs_dat_bram_o;
+    wire [`MPRJ_IO_PADS-1:0] io_out_bram;
+    wire [`MPRJ_IO_PADS-1:0] io_oeb_bram;
+    wire [2:0] user_irq_bram;
+
+    wire wbs_ack_uart_o;
+    wire [31:0] wbs_dat_uart_o;
+    wire [`MPRJ_IO_PADS-1:0] io_out_uart;
+    wire [`MPRJ_IO_PADS-1:0] io_oeb_uart;
+    wire [2:0] user_irq_uart;
+
+    assign decoded = (wbs_adr_i[31:20] == 12'h380) ? 2'b01 : 
+                     (wbs_adr_i[31:20] == 12'h300) ? 2'b10 : 2'b00;
+    
+    always @(*) begin
+        case(decoded)
+            2'b01: begin
+                wbs_ack_o      = wbs_ack_bram_o;
+                wbs_dat_o      = wbs_dat_bram_o;
+                io_out         = io_out_uart;
+                io_oeb         = io_oeb_uart;
+                user_irq       = user_irq_uart;
+            end
+            2'b10: begin
+                wbs_ack_o      = wbs_ack_uart_o;
+                wbs_dat_o      = wbs_dat_uart_o;
+                io_out         = io_out_uart;
+                io_oeb         = io_oeb_uart;
+                user_irq       = user_irq_uart;
+            end
+            default: begin
+                wbs_ack_o      = wbs_ack_uart_o;
+                wbs_dat_o      = wbs_dat_uart_o;
+                io_out         = io_out_uart;
+                io_oeb         = io_oeb_uart;
+                user_irq       = user_irq_uart;
+            end
+        endcase
+    end
 
 /*--------------------------------------*/
 /* User project is instantiated  here   */
@@ -99,8 +140,10 @@ user_proj_example mprj (
     .wbs_sel_i(wbs_sel_i),
     .wbs_adr_i(wbs_adr_i),
     .wbs_dat_i(wbs_dat_i),
-    .wbs_ack_o(wbs_ack_o),
-    .wbs_dat_o(wbs_dat_o),
+    // .wbs_ack_o(wbs_ack_o),
+    // .wbs_dat_o(wbs_dat_o),
+    .wbs_ack_o(wbs_ack_bram_o),
+    .wbs_dat_o(wbs_dat_bram_o),
 
     // Logic Analyzer
 
@@ -111,13 +154,50 @@ user_proj_example mprj (
     // IO Pads
 
     .io_in (io_in),
-    .io_out(io_out),
-    .io_oeb(io_oeb),
+    // .io_out(io_out),
+    // .io_oeb(io_oeb),
+    .io_out(io_out_bram),
+    .io_oeb(io_oeb_bram),
 
     // IRQ
-    .irq(user_irq)
+    // .irq(user_irq)
+    .irq(user_irq_bram)
+);
+
+
+uart uart (
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .wb_rst_i(wb_rst_i),
+
+    // MGMT SoC Wishbone Slave
+
+    .wbs_stb_i(wbs_stb_i),
+    .wbs_cyc_i(wbs_cyc_i),
+    .wbs_we_i(wbs_we_i),
+    .wbs_sel_i(wbs_sel_i),
+    .wbs_dat_i(wbs_dat_i),
+    .wbs_adr_i(wbs_adr_i),
+    // .wbs_ack_o(wbs_ack_o),
+    // .wbs_dat_o(wbs_dat_o),
+    .wbs_ack_o(wbs_ack_uart_o),
+    .wbs_dat_o(wbs_dat_uart_o),
+
+    // IO ports
+    .io_in  (io_in      ),
+    // .io_out (io_out     ),
+    // .io_oeb (io_oeb     ),
+    .io_out (io_out_uart   ),
+    .io_oeb (io_oeb_uart   ),
+
+    // irq
+    // .user_irq (user_irq)
+    .user_irq (user_irq_uart)
 );
 
 endmodule	// user_project_wrapper
 
-//`default_nettype wire
+`default_nettype wire

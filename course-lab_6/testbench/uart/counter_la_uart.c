@@ -177,9 +177,6 @@ void main()
 	// reg_mprj_datal = *(tmp + 8) << 16;
 	// reg_mprj_datal = *(tmp + 9) << 16;
 	// reg_mprj_datal = *(tmp + 10) << 16;
-	// // while (j < 2147900000)
-	// // 	j++;
-	// // j = 0;
 
 	// reg_mprj_datal = 0xAB510000;
 

@@ -158,10 +158,21 @@ module uart_tb;
 		$finish;
 	end
 
+	initial begin
+		fork
+			workloads;
+			uart;
+		join
+		// #1000000;
+		repeat(10000) @(posedge clock);
+		$finish;
+	end
+
 //================================================================
 //  task for Workloads (fir, matmul, qs)  
 //================================================================
-	initial begin
+	task workloads; begin
+	// initial begin
 
 		// wait(checkbits == 16'hAB40);
 		// $display ("----------------------------------------- [ FIR START ] ----------------------------------------------");
@@ -232,7 +243,9 @@ module uart_tb;
 		// $display("LA Test 2 passed");
 		// $display ("----------------------------------------- [ QS FINISH ] ----------------------------------------------");
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		wait(checkbits == 16'hAB40);
+		// $display("start at %d", $time);
 		$display ("---------------------------------------- [ MATMUL START ] --------------------------------------------");
 		$display("LA Test 1 started");
 
@@ -250,17 +263,18 @@ module uart_tb;
 		$display ("---------------------------------------- [ MATMUL FINISH ] -------------------------------------------");
 
 		wait(checkbits == 16'hAB60);
+		// $display("qs start at %d", $time);
 		$display ("----------------------------------------- [ QS START ] -----------------------------------------------");
 		$display("LA Test 1 started");
 
 		wait(checkbits == 16'd40);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 		wait(checkbits == 16'd893);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 		wait(checkbits == 16'd2541);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);
 		wait(checkbits == 16'd2669);
-		$display("Call function matmul() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);		
+		$display("Call function qsort() in User Project BRAM (mprjram, 0x38000000) return value passed, 0x%x", checkbits);		
 
 		wait(checkbits == 16'hAB61);
 		$display("LA Test 2 passed");
@@ -270,31 +284,46 @@ module uart_tb;
 		$display ("----------------------------------------- [ FIR START ] ----------------------------------------------");
 		$display("LA Test 1 started");
 		wait(checkbits == 16'd0);
-		$display("fir 1 output = 0x%x", checkbits);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return 1st value passed, 0x%x", checkbits);
 		wait(checkbits == -16'd10);
-		$display("fir 2 output = 0x%x", checkbits);
-		wait(checkbits == 16'd35);
-		$display("fir 5 output = 0x%x", checkbits);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return 2nd value passed, 0x%x", checkbits);
+		wait(checkbits == -16'd29);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return 3rd value passed, 0x%x", checkbits);
 		wait(checkbits == 16'd1098);
-		$display("fir 11 output = 0x%x", checkbits);
+		$display("Call function fir() in User Project BRAM (mprjram, 0x38000000) return 11th value passed, 0x%x", checkbits);
 
 		wait(checkbits == 16'hAB71);
 		$display("LA Test 2 passed");
 		$display ("----------------------------------------- [ FIR FINISH ] ---------------------------------------------");
+		// $display("finish at %d", $time);
 
-		#10000;
-		$finish;
-	end
+		// #10000;
+		// $finish;
+	// end
+	end endtask
 
 //================================================================
 //  task for UART  
 //================================================================
-	initial begin
-		wait(checkbits == 16'hAB40);
+	integer delay;
+	task uart; begin
+	// initial begin
+		// wait(checkbits == 16'hAB40);
 		// #8000000;
 		// wait(300000) @(posedge clock);
-		// $display("LA Test 1 started");
+		// $display("LA Test 1 started"); 1500000
+		// delay = $urandom_range(5000, 10000);
+		// delay = $urandom_range(1204425, 1204427);
+		
+		// wait(checkbits == 16'hAB40);
+		// delay = $urandom_range(12998, 13000);
+		// repeat(delay) @(posedge clock);
 
+		wait(checkbits == 16'hAB40);
+		delay = $urandom_range(0, 1200000);
+		#(delay)
+		// $display("UART interrupt at %d", $time);
+		// #(delay)
 		send_data_2;
 		// #10000000;
 		// $finish;
@@ -307,8 +336,8 @@ module uart_tb;
 		//wait(checkbits == 16'hAB51);
 		//$display("LA Test 1 passed");
 		//$finish;		
-
-	end
+	// end
+	end endtask
 
 	task send_data_1;begin
 		@(posedge clock);
